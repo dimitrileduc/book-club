@@ -4,6 +4,7 @@ import Header from './components/Header'
 import DetailPanel from './components/DetailPanel'
 import useFetch from './useFetch'
 import {GlobalStyle} from './styles'
+import {Transition} from 'react-transition-group'
 
 const App = () => {
   const [selectedBook, setSelectedBook] = useState(null)
@@ -30,7 +31,9 @@ const App = () => {
           <GlobalStyle />
           <Header />
           <BooksContainer data={data} pickBook={pickBook} isPanelOpen={showPanel} />
-          <DetailPanel book={selectedBook} closePanel={closePanel} />
+          <Transition in={showPanel} timeout={300}>
+            {(state) => <DetailPanel book={selectedBook} closePanel={closePanel} state={state} />}
+          </Transition>
         </>
       )
     }
