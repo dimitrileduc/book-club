@@ -13,7 +13,7 @@ import {Transition} from 'react-transition-group'
 const App = () => {
   const [selectedBook, setSelectedBook] = useState(null)
   const [showPanel, setShowPanel] = useState(false)
-  const {data, loading, error} = useFetch('https://book-club-json.herokuapp.com/books')
+  const {data, loading, error} = useFetch('https://stark-temple-02257.herokuapp.com/api/books')
   const [filteredBooks, setFilteredBooks] = useState([])
   const [hasFiltered, setHasFiltered] = useState(false)
 
@@ -43,7 +43,9 @@ const App = () => {
         setHasFiltered(true)
         setFilteredBooks(
           data.filter(
-            (book) => stringSearch(book.title, searchTerm) || stringSearch(book.author, searchTerm)
+            (book) =>
+              stringSearch(book.attributes.title, searchTerm) ||
+              stringSearch(book.attributes.author, searchTerm)
           )
         )
       }

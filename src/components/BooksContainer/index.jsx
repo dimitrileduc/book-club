@@ -27,14 +27,14 @@ const BooksContainer = ({data, pickBook, isPanelOpen, title}) => {
     prevPanelState.current = isPanelOpen
   }, [isPanelOpen, prevPanelState, scroll])
 
-  console.log(scroll)
+  console.log('DATAAAA' + data)
 
   return (
     <Container $isPanelOpen={isPanelOpen} $top={scroll}>
       <H2>{title}</H2>
       <BookList>
         {data?.map((book) => (
-          <Book key={book.id} book={book} pickBook={pickBook} />
+          <Book key={book.id} book={book.attributes} pickBook={pickBook} />
         ))}
       </BookList>
     </Container>

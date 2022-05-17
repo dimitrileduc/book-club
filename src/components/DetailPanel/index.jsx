@@ -29,7 +29,7 @@ const DetailPanel = ({book, closePanel, state}) => {
             <Book book={book} isLarge={true} />
             <P>{book.description}</P>
             <P>
-              <Em>Published in {book.published}</Em>
+              <Em>Published in {book.date}</Em>
             </P>
           </>
         )}
