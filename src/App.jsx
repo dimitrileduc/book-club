@@ -15,6 +15,7 @@ const App = () => {
   const [showPanel, setShowPanel] = useState(false)
   const {data, loading, error} = useFetch('https://book-club-json.herokuapp.com/books')
   const [filteredBooks, setFilteredBooks] = useState([])
+  const [hasFiltered, setHasFiltered] = useState(false)
 
   useEffect(() => {
     setFilteredBooks(data)
@@ -36,8 +37,10 @@ const App = () => {
 
     if (!searchTerm) {
       setFilteredBooks(data)
+      setHasFiltered(false)
     } else {
       if (data !== null) {
+        setHasFiltered(true)
         setFilteredBooks(
           data.filter(
             (book) => stringSearch(book.title, searchTerm) || stringSearch(book.author, searchTerm)
@@ -47,6 +50,12 @@ const App = () => {
     }
   }
   //console.log(filterBooks('Octavia'))
+  //let hasFiltered = filterBooks.length !== data.length
+  /*
+  if (data !== null) {
+    hasFiltered = filterBooks.length !== data.length
+  }
+  */
 
   if (!error) {
     if (loading) {
@@ -58,7 +67,12 @@ const App = () => {
           <Header>
             <Search filterBooks={filterBooks} />
           </Header>
-          <BooksContainer data={filteredBooks} pickBook={pickBook} isPanelOpen={showPanel} />
+          <BooksContainer
+            data={filteredBooks}
+            pickBook={pickBook}
+            isPanelOpen={showPanel}
+            title={hasFiltered ? 'Search results' : 'All books'}
+          />
           <Transition in={showPanel} timeout={300}>
             {(state) => <DetailPanel book={selectedBook} closePanel={closePanel} state={state} />}
           </Transition>

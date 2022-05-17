@@ -1,5 +1,6 @@
 import React, {useRef} from 'react'
-import {Panel, P, Em, Close, CloseWrapper, BG} from './styles'
+import {Panel, P, Em, CloseWrapper, BG} from './styles'
+import {Close} from '../../styles'
 import Book from '../Book'
 import {useEffect} from 'react'
 
