@@ -2,12 +2,12 @@ import React from 'react'
 import {Container, H2, BookList} from './styles'
 import Book from '../Book'
 
-const BooksContainer = ({books, data}) => (
+const BooksContainer = ({data, pickBook}) => (
   <Container>
     <H2>All books</H2>
     <BookList>
       {data?.map((book) => (
-        <Book key={book.id} book={book} />
+        <Book key={book.id} book={book} pickBook={pickBook} />
       ))}
     </BookList>
   </Container>
