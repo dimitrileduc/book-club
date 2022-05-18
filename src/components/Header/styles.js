@@ -13,7 +13,7 @@ export const Logo = styled(LogoSvg)`
 `
 
 export const HeaderContainer = styled.header`
-  background: #ffbccc;
+  background: #efd81d;
   border-bottom: 2px solid #000;
   padding: 20px 40px;
   box-sizing: border-box;

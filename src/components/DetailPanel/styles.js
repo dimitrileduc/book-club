@@ -24,16 +24,6 @@ export const Panel = styled.article`
     z-index: 3;
   }
 `
-export const P = styled.p`
-  font-family: 'Libre Baskerville', serif;
-  font-size: 16px;
-  line-height: 1.6;
-  margin: 30px 0 0;
-`
-
-export const Em = styled.em`
-  font-weight: italic;
-`
 
 export const CloseWrapper = styled.div`
   background: #a7e1f8;

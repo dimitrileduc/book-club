@@ -10,12 +10,17 @@ import useFetch from './useFetch'
 import {GlobalStyle} from './styles'
 import {Transition} from 'react-transition-group'
 
+import ReactDOM from 'react-dom/client'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+
 const App = () => {
   const [selectedBook, setSelectedBook] = useState(null)
   const [showPanel, setShowPanel] = useState(false)
   const {data, loading, error} = useFetch('https://stark-temple-02257.herokuapp.com/api/books')
   const [filteredBooks, setFilteredBooks] = useState([])
   const [hasFiltered, setHasFiltered] = useState(false)
+
+  const [bookIsInEditMode, setbookIsInEditMode] = useState(false)
 
   useEffect(() => {
     setFilteredBooks(data)
@@ -29,6 +34,16 @@ const App = () => {
   const closePanel = () => {
     setSelectedBook(null)
     setShowPanel(false)
+  }
+
+  const setBookViewToDetails = () => {
+    setbookIsInEditMode(false)
+    console.log('panel in View details mode')
+  }
+
+  const setBookViewToEdit = () => {
+    setbookIsInEditMode(true)
+    console.log('panel in View Edit mode')
   }
 
   const filterBooks = (searchTerm) => {
@@ -74,9 +89,18 @@ const App = () => {
             pickBook={pickBook}
             isPanelOpen={showPanel}
             title={hasFiltered ? 'Search results' : 'All books'}
+            setBookViewToDetails={setBookViewToDetails}
+            setBookViewToEdit={setBookViewToEdit}
           />
           <Transition in={showPanel} timeout={300}>
-            {(state) => <DetailPanel book={selectedBook} closePanel={closePanel} state={state} />}
+            {(state) => (
+              <DetailPanel
+                book={selectedBook}
+                closePanel={closePanel}
+                state={state}
+                bookIsInEditMode={bookIsInEditMode}
+              />
+            )}
           </Transition>
         </>
       )

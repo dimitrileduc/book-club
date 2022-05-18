@@ -24,7 +24,14 @@ const Search = ({filterBooks}) => {
     <Wrapper>
       <SearchContainer $shownOnDesktop={shownOnDesktop}>
         <Icon onClick={showSearch} />
-        <Input ref={inputEl} type="text" name="search" autoComplete="off" onChange={handleChange} />
+        <Input
+          aria-label="search input for books"
+          ref={inputEl}
+          type="text"
+          name="search"
+          autoComplete="off"
+          onChange={handleChange}
+        />
         <Close onClick={clearSearch} />
       </SearchContainer>
     </Wrapper>

@@ -9,7 +9,7 @@ export const SearchContainer = styled.div`
   width: ${({$shownOnDesktop}) => ($shownOnDesktop ? '420px' : '20px')};
   transition: 300ms;
 
-  background: #a7e1f8;
+  background: #ffffff;
   padding: 8px;
   display: flex;
   align-items: center;
@@ -43,7 +43,7 @@ export const Icon = styled(MagnifyingIcon)`
   width: 20px;
   cursor: pointer;
 `
-
+//
 export const Wrapper = styled.div`
   @media (max-width: 800px) {
     background: #ffbccc;

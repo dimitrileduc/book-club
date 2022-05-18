@@ -1,9 +1,18 @@
 import React, {useRef, useEffect, useState} from 'react'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+
 import {debounce} from 'lodash-es'
 import {Container, H2, BookList} from './styles'
 import Book from '../Book'
 
-const BooksContainer = ({data, pickBook, isPanelOpen, title}) => {
+const BooksContainer = ({
+  data,
+  pickBook,
+  isPanelOpen,
+  title,
+  setBookViewToDetails,
+  setBookViewToEdit,
+}) => {
   const [scroll, setScroll] = useState(0)
   const prevPanelState = useRef(false)
 
@@ -34,7 +43,13 @@ const BooksContainer = ({data, pickBook, isPanelOpen, title}) => {
       <H2>{title}</H2>
       <BookList>
         {data?.map((book) => (
-          <Book key={book.id} book={book.attributes} pickBook={pickBook} />
+          <Book
+            key={book.id}
+            book={book.attributes}
+            pickBook={pickBook}
+            setBookViewToDetails={setBookViewToDetails}
+            setBookViewToEdit={setBookViewToEdit}
+          />
         ))}
       </BookList>
     </Container>

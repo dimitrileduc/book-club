@@ -1,10 +1,13 @@
 import React, {useRef} from 'react'
+import {useEffect, useState} from 'react'
 import {Panel, P, Em, CloseWrapper, BG} from './styles'
 import {Close} from '../../styles'
-import Book from '../Book'
-import {useEffect} from 'react'
 
-const DetailPanel = ({book, closePanel, state}) => {
+import Book from '../Book'
+import BookDetails from '../BookDetails'
+import BookEdit from '../BookEdit'
+
+const DetailPanel = ({book, closePanel, state, bookIsInEditMode}) => {
   const panelEl = useRef(null)
   const prevBook = useRef(null)
 
@@ -16,6 +19,13 @@ const DetailPanel = ({book, closePanel, state}) => {
   }, [book, prevBook])
 
   console.log(state)
+  let panelTypeView
+  if (bookIsInEditMode) {
+    panelTypeView = <BookEdit book={book} />
+  } else {
+    panelTypeView = <BookDetails book={book} />
+  }
+
   return (
     <>
       <BG onClick={closePanel} $state={state} />
@@ -24,15 +34,7 @@ const DetailPanel = ({book, closePanel, state}) => {
           <Close />
         </CloseWrapper>
 
-        {book && (
-          <>
-            <Book book={book} isLarge={true} />
-            <P>{book.description}</P>
-            <P>
-              <Em>Published in {book.date}</Em>
-            </P>
-          </>
-        )}
+        {panelTypeView}
       </Panel>
     </>
   )
