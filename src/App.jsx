@@ -12,11 +12,14 @@ import {Transition} from 'react-transition-group'
 
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import useFetchGetAll from './useFetch'
 
 const App = () => {
   const [selectedBook, setSelectedBook] = useState(null)
   const [showPanel, setShowPanel] = useState(false)
-  const {data, loading, error} = useFetch('https://stark-temple-02257.herokuapp.com/api/books')
+  const {data, loading, error} = useFetchGetAll(
+    'https://stark-temple-02257.herokuapp.com/api/books'
+  )
   const [filteredBooks, setFilteredBooks] = useState([])
   const [hasFiltered, setHasFiltered] = useState(false)
 

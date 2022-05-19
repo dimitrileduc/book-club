@@ -10,7 +10,7 @@ export const Cover = styled.img`
   border: 2px solid #000;
   object-fit: cover;
   aspect-ratio: 2 / 3;
-  width: 100%;
+  width: ${({$isLarge}) => ($isLarge ? '60%' : '100%')};
   margin-bottom: 16px;
 `
 
@@ -30,4 +30,7 @@ export const Author = styled.h4`
   margin: 0;
   font-family: 'Libre Baskerville', serif;
   font-style: italic;
+`
+export const Button = styled.button`
+  display: ${({$isLarge}) => ($isLarge ? 'none' : 'block')};
 `

@@ -4,10 +4,10 @@ export const Panel = styled.article`
   background-color: #ffffff;
   border-left: 2px solid #000;
   height: calc(100vh - 82px);
-  width: 660px;
+  width: 400px;
   position: fixed;
   z-index: 2;
-  right: ${({$state}) => ($state === 'entering' || $state === 'entered' ? 0 : '-666px')};
+  right: ${({$state}) => ($state === 'entering' || $state === 'entered' ? 0 : '-400px')};
   bottom: 0;
   box-sizing: border-box;
   padding: 40px 120px 60px 40px;
