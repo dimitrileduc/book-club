@@ -82,44 +82,52 @@ const App = () => {
     hasFiltered = filterBooks.length !== data.length
   }
   */
-
-  if (!error) {
-    if (loading) {
-    }
-    if (!loading) {
-      return (
-        <>
-          <GlobalStyle />
-          <Header>
-            <Search filterBooks={filterBooks} />
-          </Header>
-          <BooksContainer
-            data={filteredBooks}
-            pickBook={pickBook}
-            isPanelOpen={showPanel}
-            title={hasFiltered ? 'Search results' : 'All books'}
-            setBookViewToDetails={setBookViewToDetails}
-            setBookViewToEdit={setBookViewToEdit}
-            setData={setData}
-            setError={setError}
-            setLoading={setLoading}
-            error={error}
-            loading={loading}
-          />
-          <Transition in={showPanel} timeout={300}>
-            {(state) => (
-              <DetailPanel
-                book={selectedBook}
-                closePanel={closePanel}
-                state={state}
-                bookIsInEditMode={bookIsInEditMode}
-              />
-            )}
-          </Transition>
-        </>
-      )
+  function ConditionnalJsx() {
+    if (!error) {
+      if (loading) {
+        return <div>Loading</div>
+      }
+      if (!loading) {
+        return (
+          <>
+            <BooksContainer
+              data={filteredBooks}
+              pickBook={pickBook}
+              isPanelOpen={showPanel}
+              title={hasFiltered ? 'Search results' : 'All books'}
+              setBookViewToDetails={setBookViewToDetails}
+              setBookViewToEdit={setBookViewToEdit}
+              setData={setData}
+              setError={setError}
+              setLoading={setLoading}
+              error={error}
+              loading={loading}
+            />
+            <Transition in={showPanel} timeout={300}>
+              {(state) => (
+                <DetailPanel
+                  book={selectedBook}
+                  closePanel={closePanel}
+                  state={state}
+                  bookIsInEditMode={bookIsInEditMode}
+                />
+              )}
+            </Transition>
+          </>
+        )
+      }
     }
   }
+
+  return (
+    <>
+      <GlobalStyle />
+      <Header>
+        <Search filterBooks={filterBooks} />
+      </Header>
+      <ConditionnalJsx />
+    </>
+  )
 }
 
 export default App

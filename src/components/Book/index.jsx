@@ -57,7 +57,6 @@ const Book = ({
         setData={setData}
         setError={setError}
         setLoading={setLoading}
-        ading
         error={error}
         loading={loading}
         bookId={keyId}
