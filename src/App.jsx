@@ -85,7 +85,6 @@ const App = () => {
   function ConditionnalJsx() {
     if (!error) {
       if (loading) {
-        return <div>Loading</div>
       }
       if (!loading) {
         return (

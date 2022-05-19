@@ -7,6 +7,7 @@ body{
   padding: 0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  background-color: lightgrey;
 }
 
 

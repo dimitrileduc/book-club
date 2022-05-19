@@ -1,5 +1,6 @@
 import React, {useRef, useEffect, useState} from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {v4 as uuidv4} from 'uuid'
 
 import {debounce} from 'lodash-es'
 import {Container, H2, BookList} from './styles'
@@ -49,6 +50,7 @@ const BooksContainer = ({
       <BookList>
         {data?.map((book) => (
           <Book
+            key={uuidv4()}
             keyId={book.id}
             book={book.attributes}
             pickBook={pickBook}
