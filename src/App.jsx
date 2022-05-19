@@ -5,27 +5,33 @@ import Header from './components/Header'
 import DetailPanel from './components/DetailPanel'
 import Search from './components/Search'
 
-import useFetch from './useFetch'
+import useFetch from './utils/axiosRequests/axiosGetAll'
 
 import {GlobalStyle} from './styles'
 import {Transition} from 'react-transition-group'
 
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import useFetchGetAll from './useFetch'
+import axiosGetAll from './utils/axiosRequests/axiosGetAll.js'
 
 const App = () => {
   const [selectedBook, setSelectedBook] = useState(null)
   const [showPanel, setShowPanel] = useState(false)
-  const {data, loading, error} = useFetchGetAll(
-    'https://stark-temple-02257.herokuapp.com/api/books'
-  )
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
   const [filteredBooks, setFilteredBooks] = useState([])
   const [hasFiltered, setHasFiltered] = useState(false)
 
   const [bookIsInEditMode, setbookIsInEditMode] = useState(false)
 
   useEffect(() => {
+    axiosGetAll('https://stark-temple-02257.herokuapp.com/api/books', setData, setLoading, setError)
+  }, [])
+
+  useEffect(() => {
+    console.log('USE EFFECT')
     setFilteredBooks(data)
   }, [data])
 
@@ -94,6 +100,11 @@ const App = () => {
             title={hasFiltered ? 'Search results' : 'All books'}
             setBookViewToDetails={setBookViewToDetails}
             setBookViewToEdit={setBookViewToEdit}
+            setData={setData}
+            setError={setError}
+            setLoading={setLoading}
+            error={error}
+            loading={loading}
           />
           <Transition in={showPanel} timeout={300}>
             {(state) => (

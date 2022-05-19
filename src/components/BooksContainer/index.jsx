@@ -12,6 +12,11 @@ const BooksContainer = ({
   title,
   setBookViewToDetails,
   setBookViewToEdit,
+  setData,
+  setLoading,
+  setError,
+  error,
+  loading,
 }) => {
   const [scroll, setScroll] = useState(0)
   const prevPanelState = useRef(false)
@@ -44,11 +49,16 @@ const BooksContainer = ({
       <BookList>
         {data?.map((book) => (
           <Book
-            key={book.id}
+            keyId={book.id}
             book={book.attributes}
             pickBook={pickBook}
             setBookViewToDetails={setBookViewToDetails}
             setBookViewToEdit={setBookViewToEdit}
+            setData={setData}
+            setError={setError}
+            setLoading={setLoading}
+            error={error}
+            loading={loading}
           />
         ))}
       </BookList>
