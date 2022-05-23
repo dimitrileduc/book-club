@@ -5,13 +5,12 @@ import Header from './components/Header'
 import DetailPanel from './components/DetailPanel'
 import Search from './components/Search'
 
-import useFetch from './utils/axiosRequests/axiosGetAll'
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import {GlobalStyle} from './styles'
 import {Transition} from 'react-transition-group'
 
-import ReactDOM from 'react-dom/client'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import axiosGetAll from './utils/axiosRequests/axiosGetAll.js'
 import {useCallback} from 'react'
 
@@ -28,6 +27,17 @@ const App = () => {
   const [hasFiltered, setHasFiltered] = useState(false)
 
   const [bookViewType, setBookViewType] = useState('read')
+
+  const notify = (mess) =>
+    toast.success(mess, {
+      position: 'top-right',
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
 
   useEffect(() => {
     axiosGetAll('https://stark-temple-02257.herokuapp.com/api/books', setData, setLoading, setError)
@@ -102,6 +112,7 @@ const App = () => {
               error={error}
               loading={loading}
               setSelectedBookId={setSelectedBookId}
+              notify={notify}
             />
           </>
         )
@@ -112,9 +123,11 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
+      <ToastContainer />
       <Header>
         <Search filterBooks={filterBooks} />
       </Header>
+
       <ConditionnalJsx />
 
       <Transition in={showPanel} timeout={100}>

@@ -38,16 +38,12 @@ const BookEdit = ({book, selectedBookId, setLoading, setError, setData, closePan
             .max(30, 'Sorry, author is too long'),
 
           linkurl: Yup.string()
-            .matches(
-              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-              'Enter correct url!'
-            )
+            .url()
+            .typeError('you must specify a valide url')
             .required('Please enter valid url'),
           imageurl: Yup.string()
-            .matches(
-              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-              'Enter correct url!'
-            )
+            .url()
+            .typeError('you must specify a valide url')
             .required('Please enter valid url'),
 
           year: Yup.number()

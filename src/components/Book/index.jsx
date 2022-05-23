@@ -17,6 +17,7 @@ function Book({
   loading,
   count,
   setSelectedBookId,
+  notify,
 }) {
   function onClickFunctionDelete() {
     axiosDelete(
@@ -24,7 +25,9 @@ function Book({
       setLoading,
       setError,
       keyId,
-      setData
+      setData,
+      notify,
+      book.title
     )
     console.log(typeof bookId)
   }

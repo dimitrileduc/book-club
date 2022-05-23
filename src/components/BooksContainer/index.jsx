@@ -21,6 +21,7 @@ const BooksContainer = ({
   error,
   loading,
   setSelectedBookId,
+  notify,
 }) => {
   const [scroll, setScroll] = useState(0)
   const prevPanelState = useRef(false)
@@ -92,6 +93,7 @@ const BooksContainer = ({
               error={error}
               loading={loading}
               setSelectedBookId={setSelectedBookId}
+              notify={notify}
             />
           )
         })}
