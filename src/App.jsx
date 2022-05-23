@@ -13,9 +13,12 @@ import {Transition} from 'react-transition-group'
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import axiosGetAll from './utils/axiosRequests/axiosGetAll.js'
+import {useCallback} from 'react'
 
 const App = () => {
   const [selectedBook, setSelectedBook] = useState(null)
+  const [selectedBookId, setSelectedBookId] = useState(null)
+
   const [showPanel, setShowPanel] = useState(false)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -24,7 +27,7 @@ const App = () => {
   const [filteredBooks, setFilteredBooks] = useState([])
   const [hasFiltered, setHasFiltered] = useState(false)
 
-  const [bookIsInEditMode, setbookIsInEditMode] = useState(false)
+  const [bookViewType, setBookViewType] = useState('read')
 
   useEffect(() => {
     axiosGetAll('https://stark-temple-02257.herokuapp.com/api/books', setData, setLoading, setError)
@@ -35,24 +38,22 @@ const App = () => {
     setFilteredBooks(data)
   }, [data])
 
-  const pickBook = (book) => {
-    setSelectedBook(book)
+  const pickBook = useCallback((book) => {
+    if (book) {
+      setSelectedBook(book)
+    }
+
     setShowPanel(true)
-  }
+  }, [])
 
   const closePanel = () => {
     setSelectedBook(null)
     setShowPanel(false)
   }
 
-  const setBookViewToDetails = () => {
-    setbookIsInEditMode(false)
-    console.log('panel in View details mode')
-  }
-
-  const setBookViewToEdit = () => {
-    setbookIsInEditMode(true)
-    console.log('panel in View Edit mode')
+  const setBookView = (type) => {
+    setBookViewType(type)
+    console.log('type view is ' + bookViewType)
   }
 
   const filterBooks = (searchTerm) => {
@@ -94,24 +95,14 @@ const App = () => {
               pickBook={pickBook}
               isPanelOpen={showPanel}
               title={hasFiltered ? 'Search results' : 'All books'}
-              setBookViewToDetails={setBookViewToDetails}
-              setBookViewToEdit={setBookViewToEdit}
+              setBookView={setBookView}
               setData={setData}
               setError={setError}
               setLoading={setLoading}
               error={error}
               loading={loading}
+              setSelectedBookId={setSelectedBookId}
             />
-            <Transition in={showPanel} timeout={300}>
-              {(state) => (
-                <DetailPanel
-                  book={selectedBook}
-                  closePanel={closePanel}
-                  state={state}
-                  bookIsInEditMode={bookIsInEditMode}
-                />
-              )}
-            </Transition>
           </>
         )
       }
@@ -125,6 +116,21 @@ const App = () => {
         <Search filterBooks={filterBooks} />
       </Header>
       <ConditionnalJsx />
+
+      <Transition in={showPanel} timeout={100}>
+        {(state) => (
+          <DetailPanel
+            book={selectedBook}
+            closePanel={closePanel}
+            state={state}
+            bookViewType={bookViewType}
+            selectedBookId={selectedBookId}
+            setLoading={setLoading}
+            setError={setError}
+            setData={setData}
+          />
+        )}
+      </Transition>
     </>
   )
 }

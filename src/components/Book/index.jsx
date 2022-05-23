@@ -1,34 +1,47 @@
-import React from 'react'
+import React, {useState} from 'react'
 //import {Container, H2, BookList} from './styles'
 import {Container, Cover, Title, Author, Button} from './styles'
 
-import ButtonDelete from './ButtonDelete'
+import axiosDelete from '../../utils/axiosRequests/axiosDelete.js'
 
-const Book = ({
+function Book({
   keyId,
   book,
   pickBook,
   isLarge,
-  setBookViewToDetails,
-  setBookViewToEdit,
+  setBookView,
   setData,
   setError,
   setLoading,
   error,
   loading,
-}) => {
+  count,
+  setSelectedBookId,
+}) {
+  function onClickFunctionDelete() {
+    axiosDelete(
+      'https://stark-temple-02257.herokuapp.com/api/books/',
+      setLoading,
+      setError,
+      keyId,
+      setData
+    )
+    console.log(typeof bookId)
+  }
+
   console.log('key is' + keyId)
   return (
-    <Container $isLarge={isLarge}>
+    <Container $isLarge={isLarge} $count={count}>
       <Cover
         $isLarge={isLarge}
         alt={`Book cover for ${book.title} by ${book.author}`}
         src={book.image}
         onClick={() => {
-          setBookViewToDetails()
+          setBookView('read')
           pickBook(book)
         }}
       />
+
       <figcaption>
         <Title $isLarge={isLarge}>{book.title}</Title>
         <Author>{book.author}</Author>
@@ -36,7 +49,8 @@ const Book = ({
       <Button
         $isLarge={isLarge}
         onClick={() => {
-          setBookViewToEdit()
+          setSelectedBookId(keyId)
+          setBookView('edit')
           pickBook(book)
         }}
       >
@@ -46,24 +60,23 @@ const Book = ({
       <Button
         $isLarge={isLarge}
         onClick={() => {
-          setBookViewToDetails()
+          setBookView('read')
           pickBook(book)
         }}
       >
         View details
       </Button>
 
-      <ButtonDelete
-        setData={setData}
-        setError={setError}
-        setLoading={setLoading}
-        error={error}
-        loading={loading}
-        bookId={keyId}
-      />
+      <Button
+        $isLarge={isLarge}
+        onClick={() => {
+          onClickFunctionDelete()
+        }}
+      >
+        delete
+      </Button>
     </Container>
   )
 }
 
 export default Book
-//, setBookViewToDetails()

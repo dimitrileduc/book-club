@@ -50,8 +50,8 @@ export const CloseWrapper = styled.div`
 `
 
 export const BG = styled.div`
-  background: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+  background: rgba(0, 0, 0, 0.8);
+  cursor: crosshair;
   position: fixed;
   height: 100vh;
   width: 100vw;

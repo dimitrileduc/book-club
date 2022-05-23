@@ -6,8 +6,18 @@ import {Close} from '../../styles'
 import Book from '../Book'
 import BookDetails from '../BookDetails'
 import BookEdit from '../BookEdit'
+import BookAdd from '../BookAdd'
 
-const DetailPanel = ({book, closePanel, state, bookIsInEditMode}) => {
+const DetailPanel = ({
+  book,
+  closePanel,
+  state,
+  bookViewType,
+  selectedBookId,
+  setLoading,
+  setError,
+  setData,
+}) => {
   const panelEl = useRef(null)
   const prevBook = useRef(null)
 
@@ -18,12 +28,30 @@ const DetailPanel = ({book, closePanel, state, bookIsInEditMode}) => {
     prevBook.current = book
   }, [book, prevBook])
 
-  console.log(state)
+  console.log('OKK VIEW TYPE ' + bookViewType)
   let panelTypeView
-  if (bookIsInEditMode) {
-    panelTypeView = <BookEdit book={book} />
-  } else {
-    panelTypeView = <BookDetails book={book} />
+  switch (bookViewType) {
+    case 'edit':
+      panelTypeView = (
+        <BookEdit
+          book={book}
+          selectedBookId={selectedBookId}
+          setLoading={setLoading}
+          setError={setError}
+          setData={setData}
+          closePanel={closePanel}
+        />
+      )
+      break
+    case 'read':
+      panelTypeView = <BookDetails book={book} />
+      break
+    case 'add':
+      panelTypeView = (
+        <BookAdd book={book} setLoading={setLoading} setError={setError} setData={setData} />
+      )
+      break
+    default:
   }
 
   return (

@@ -8,6 +8,20 @@ body{
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   background-color: lightgrey;
+
+  animation: fadeInFromNone 1s;
+
+@keyframes fadeInFromNone {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
 }
 
 

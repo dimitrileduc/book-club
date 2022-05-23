@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 
 export const Container = styled.div`
   background-color: lightgrey;
@@ -6,10 +6,6 @@ export const Container = styled.div`
   overflow: ${({$isPanelOpen}) => ($isPanelOpen ? 'hidden' : 'scroll')};
   position: ${({$isPanelOpen}) => ($isPanelOpen ? 'fixed' : 'unset')};
   top: ${({$isPanelOpen, $top}) => ($isPanelOpen ? `-${$top}px` : 0)};
-
-  @media (max-width: 800px) {
-    padding: 114px 20px;
-  }
 `
 
 export const H2 = styled.h2`
@@ -43,5 +39,23 @@ export const BookList = styled.div`
     grid-template-columns: repeat(1, 1fr);
     grid-column-gap: 12px;
     grid-row-gap: 60px;
+  }
+`
+
+export const Button = styled.button`
+  border: 0.5px solid #efd81c;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  background-image: linear-gradient(120deg, #efd81c 0%, #efd81c 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0;
+  background-position: 5% 100%;
+  transition: background-size 0.17s ease-in;
+  color: grey;
+  &:hover {
+    color: black;
+    background-size: 100% 100%;
+    border: 0.5px solid transparent;
   }
 `

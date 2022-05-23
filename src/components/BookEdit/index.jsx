@@ -1,10 +1,18 @@
 import React from 'react'
-import {P, Em} from './styles'
+import {Label, Input, Select, Container, DescriptionArea} from './styles'
 import Book from '../Book'
 import {Formik, Field, Form, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
+import axiosUpdate from '../../utils/axiosRequests/axiosUpdate.js'
+import {useState} from 'react'
 
-const BookEdit = ({book}) => {
+const BookEdit = ({book, selectedBookId, setLoading, setError, setData, closePanel}) => {
+  let bookCategory = ''
+  if (book) {
+    bookCategory = book.category
+  }
+  const [selectBoxValue, setSelectBoxValue] = useState(bookCategory)
+
   if (book) {
     return (
       <Formik
@@ -12,8 +20,8 @@ const BookEdit = ({book}) => {
           title: book.title,
           author: book.author,
 
-          category: '',
-          level: '',
+          category: selectBoxValue,
+          level: book.level,
 
           linkurl: book.linkurl,
           imageurl: book.image,
@@ -23,6 +31,7 @@ const BookEdit = ({book}) => {
         validationSchema={Yup.object({
           title: Yup.string()
             .required('Sorry, this is required')
+            .min(5, 'Title is too short')
             .max(30, 'Sorry, title is too long'),
           author: Yup.string()
             .required('Sorry, this is required')
@@ -52,19 +61,29 @@ const BookEdit = ({book}) => {
             .max(300, 'Sorry, description is too long'),
         })}
         onSubmit={(values) => {
-          console.log(JSON.stringify(values) + 'form submitted')
+          closePanel()
+          console.log('id book' + selectedBookId + 'is ->' + typeof values.title + 'form submitted')
+          axiosUpdate(
+            'https://stark-temple-02257.herokuapp.com/api/books',
+            setLoading,
+            setError,
+            selectedBookId,
+            setData,
+            values,
+            selectBoxValue
+          )
         }}
       >
         {({values, errors, touched, handleChange, handleBlur, handleSubmit}) => (
-          <div className="container">
+          <Container className="container">
             <div className="col-md-12 mt-5">
               <form onSubmit={(values) => handleSubmit(values)}>
                 <h4 className="mb-3">Edit book information</h4>
 
                 <div className="row">
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="title">Title</label>
-                    <input
+                    <Label htmlFor="title">Title</Label>
+                    <Input
                       type="text"
                       className="form-control"
                       id="title"
@@ -78,8 +97,8 @@ const BookEdit = ({book}) => {
                     ) : null}
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="author">author</label>
-                    <input
+                    <Label htmlFor="author">author</Label>
+                    <Input
                       type="text"
                       className="form-control"
                       id="author"
@@ -96,23 +115,51 @@ const BookEdit = ({book}) => {
 
                 <div className="row">
                   <div className="col-md-5 mb-3">
-                    <label htmlFor="category">Category</label>
-                    <select
-                      className="custom-select d-block w-100"
-                      id="category"
-                      name="category"
-                      value={values.category}
-                      onChange={handleChange}
-                    >
-                      <option value="">Choose...</option>
-                      <option value="JS">Javascript</option>
-                      <option value="TY">Typescript</option>
-                      <option value="RE">React</option>
-                    </select>
+                    <Label htmlFor="category">Category</Label>
                   </div>
+
+                  <div
+                    id="category"
+                    name="category"
+                    onChange={handleChange}
+                    role="group"
+                    aria-labelledby="my-radio-group"
+                  >
+                    <label>
+                      <Field
+                        type="radio"
+                        name="picked"
+                        checked={selectBoxValue === 'JS'}
+                        value="JS"
+                        onChange={() => setSelectBoxValue('JS')}
+                      />
+                      JS
+                    </label>
+                    <label>
+                      <Field
+                        type="radio"
+                        name="picked"
+                        checked={selectBoxValue === 'TY'}
+                        value="TY"
+                        onChange={() => setSelectBoxValue('TY')}
+                      />
+                      Typescript
+                    </label>
+                    <label>
+                      <Field
+                        type="radio"
+                        name="picked"
+                        checked={selectBoxValue === 'RE'}
+                        value="RE"
+                        onChange={() => setSelectBoxValue('RE')}
+                      />
+                      React
+                    </label>
+                  </div>
+
                   <div className="col-md-4 mb-3">
-                    <label htmlFor="level">Level</label>
-                    <select
+                    <Label htmlFor="level">Level</Label>
+                    <Select
                       className="custom-select d-block w-100"
                       id="level"
                       name="level"
@@ -123,12 +170,12 @@ const BookEdit = ({book}) => {
                       <option value="be">Beginner</option>
                       <option value="int">Intermediate</option>
                       <option value="dif">Difficult</option>
-                    </select>
+                    </Select>
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="linkurl">Link of pdf file</label>
-                    <input
+                    <Label htmlFor="linkurl">Link of pdf file</Label>
+                    <Input
                       type="text"
                       className="form-control"
                       id="linkurl"
@@ -143,8 +190,8 @@ const BookEdit = ({book}) => {
                   </div>
 
                   <div className="col-md-6 mb-3">
-                    <label htmlFor="imageurl">Link of cover image</label>
-                    <input
+                    <Label htmlFor="imageurl">Link of cover image</Label>
+                    <Input
                       type="text"
                       className="form-control"
                       id="imageurl"
@@ -159,8 +206,8 @@ const BookEdit = ({book}) => {
                   </div>
 
                   <div className="col-md-3 mb-3">
-                    <label htmlFor="year">Year of publication</label>
-                    <input
+                    <Label htmlFor="year">Year of publication</Label>
+                    <Input
                       type="number"
                       className="form-control"
                       min="2015"
@@ -178,16 +225,18 @@ const BookEdit = ({book}) => {
                   </div>
                 </div>
 
-                <label for="description">Description</label>
+                <Label for="description">Description</Label>
 
                 <Field
                   id="decription"
                   name="description"
                   component="textarea"
+                  className="descriptionArea"
                   rows="8"
                   value={values.description}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  style={{width: '300px'}}
                 ></Field>
                 {errors.description && touched.description ? (
                   <span style={{color: 'red'}}>{errors.description}</span>
@@ -199,7 +248,7 @@ const BookEdit = ({book}) => {
                 </button>
               </form>
             </div>
-          </div>
+          </Container>
         )}
       </Formik>
     )

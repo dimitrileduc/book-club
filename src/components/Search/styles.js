@@ -46,7 +46,7 @@ export const Icon = styled(MagnifyingIcon)`
 //
 export const Wrapper = styled.div`
   @media (max-width: 800px) {
-    background: #ffbccc;
+    background: grey;
     border-top: 2px solid #000;
     display: flex;
     align-items: center;

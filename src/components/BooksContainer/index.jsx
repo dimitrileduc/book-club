@@ -1,23 +1,26 @@
 import React, {useRef, useEffect, useState} from 'react'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+
 import {v4 as uuidv4} from 'uuid'
 
 import {debounce} from 'lodash-es'
-import {Container, H2, BookList} from './styles'
+import {Container, H2, BookList, Button} from './styles'
+import './styles.css'
 import Book from '../Book'
+
+import {Transition} from 'react-transition-group'
 
 const BooksContainer = ({
   data,
   pickBook,
   isPanelOpen,
   title,
-  setBookViewToDetails,
-  setBookViewToEdit,
+  setBookView,
   setData,
   setLoading,
   setError,
   error,
   loading,
+  setSelectedBookId,
 }) => {
   const [scroll, setScroll] = useState(0)
   const prevPanelState = useRef(false)
@@ -39,30 +42,59 @@ const BooksContainer = ({
     if (prevPanelState.current && !isPanelOpen) {
       window.scroll(0, scroll)
     }
+
     prevPanelState.current = isPanelOpen
   }, [isPanelOpen, prevPanelState, scroll])
 
-  console.log('DATAAAA' + data)
+  console.log(scroll)
+  // Use effect to set intervall between each book render ( for animation effect) ... conflict ->  Bookcontainer.js is rendering due to setCount
+  /*
+  useEffect(() => {
+    let counter = count
+    const interval = setInterval(() => {
+      if (counter >= data.length) {
+        clearInterval(interval)
+      } else {
+        setCount((count) => count + 1)
+        counter++
+      }
+    }, 0)
+    return () => clearInterval(interval)
+  }, [data])
+  /*
+  in jsx :  {data?.slice(0, count).map((book) => { ...
+    */
 
   return (
     <Container $isPanelOpen={isPanelOpen} $top={scroll}>
+      <Button
+        onClick={() => {
+          setBookView('add')
+          pickBook()
+        }}
+      >
+        + Add Book
+      </Button>
+
       <H2>{title}</H2>
       <BookList>
-        {data?.map((book) => (
-          <Book
-            key={uuidv4()}
-            keyId={book.id}
-            book={book.attributes}
-            pickBook={pickBook}
-            setBookViewToDetails={setBookViewToDetails}
-            setBookViewToEdit={setBookViewToEdit}
-            setData={setData}
-            setError={setError}
-            setLoading={setLoading}
-            error={error}
-            loading={loading}
-          />
-        ))}
+        {data?.map((book) => {
+          return (
+            <Book
+              key={uuidv4()}
+              keyId={book.id}
+              book={book.attributes}
+              pickBook={pickBook}
+              setBookView={setBookView}
+              setData={setData}
+              setError={setError}
+              setLoading={setLoading}
+              error={error}
+              loading={loading}
+              setSelectedBookId={setSelectedBookId}
+            />
+          )
+        })}
       </BookList>
     </Container>
   )
