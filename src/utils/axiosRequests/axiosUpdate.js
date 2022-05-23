@@ -9,7 +9,8 @@ export default async function axiosUpdate(
   selectedBookId,
   setData,
   values,
-  selectBoxValue
+  selectBoxValue,
+  notify
 ) {
   let urlUpdate = url + selectedBookId
 
@@ -47,6 +48,7 @@ export default async function axiosUpdate(
     setError(err)
   } finally {
     setLoading(false)
+    notify('book "' + values.title + '" is updated')
     axiosGetAll('https://stark-temple-02257.herokuapp.com/api/books', setData, setLoading, setError)
   }
 }

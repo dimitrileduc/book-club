@@ -9,7 +9,9 @@ export default async function axiosPost(
 
   setData,
   values,
-  key
+  key,
+  notify,
+  title
 ) {
   console.log('values title' + values)
 
@@ -46,6 +48,7 @@ export default async function axiosPost(
     setError(err)
   } finally {
     setLoading(false)
+    notify('book "' + title + '" is added')
     axiosGetAll('https://stark-temple-02257.herokuapp.com/api/books', setData, setLoading, setError)
   }
 }

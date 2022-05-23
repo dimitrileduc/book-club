@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import axiosUpdate from '../../utils/axiosRequests/axiosUpdate.js'
 import {useState} from 'react'
 
-const BookEdit = ({book, selectedBookId, setLoading, setError, setData, closePanel}) => {
+const BookEdit = ({book, selectedBookId, setLoading, setError, setData, closePanel, notify}) => {
   let bookCategory = ''
   if (book) {
     bookCategory = book.category
@@ -66,7 +66,8 @@ const BookEdit = ({book, selectedBookId, setLoading, setError, setData, closePan
             selectedBookId,
             setData,
             values,
-            selectBoxValue
+            selectBoxValue,
+            notify
           )
         }}
       >

@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import axiosPost from '../../utils/axiosRequests/axiosPost.js'
 import {v4 as uuidv4} from 'uuid'
 
-const BookAdd = ({setLoading, setError, setData}) => {
+const BookAdd = ({setLoading, setError, setData, notify, closePanel}) => {
   let key = uuidv4()
   return (
     <Formik
@@ -52,6 +52,8 @@ const BookAdd = ({setLoading, setError, setData}) => {
           .max(300, 'Sorry, description is too long'),
       })}
       onSubmit={(values) => {
+        closePanel()
+
         //console.log('id book' + selectedBookId + 'is ->' + typeof values.title + 'form submitted')
         axiosPost(
           'https://stark-temple-02257.herokuapp.com/api/books/',
@@ -59,7 +61,9 @@ const BookAdd = ({setLoading, setError, setData}) => {
           setError,
           setData,
           values,
-          key
+          key,
+          notify,
+          values.title
         )
       }}
     >
@@ -77,7 +81,7 @@ const BookAdd = ({setLoading, setError, setData}) => {
                     className="form-control"
                     id="title"
                     name="title"
-                    value={values.title}
+                    value={values.title || ''}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />

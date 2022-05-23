@@ -141,6 +141,7 @@ const App = () => {
             setLoading={setLoading}
             setError={setError}
             setData={setData}
+            notify={notify}
           />
         )}
       </Transition>

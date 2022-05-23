@@ -17,6 +17,7 @@ const DetailPanel = ({
   setLoading,
   setError,
   setData,
+  notify,
 }) => {
   const panelEl = useRef(null)
   const prevBook = useRef(null)
@@ -40,6 +41,7 @@ const DetailPanel = ({
           setError={setError}
           setData={setData}
           closePanel={closePanel}
+          notify={notify}
         />
       )
       break
@@ -48,7 +50,14 @@ const DetailPanel = ({
       break
     case 'add':
       panelTypeView = (
-        <BookAdd book={book} setLoading={setLoading} setError={setError} setData={setData} />
+        <BookAdd
+          book={book}
+          setLoading={setLoading}
+          setError={setError}
+          setData={setData}
+          notify={notify}
+          closePanel={closePanel}
+        />
       )
       break
     default:
